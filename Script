@@ -13,8 +13,8 @@ aim = vector(0, -10) #MP - Sets aim as a vector object, meaning the direction in
 
 def change(x, y):
     """Change snake direction.""" .
-    aim.x = x #MP - This assigns variable to the x-direction
-    aim.y = y #MP - This assigns varaible to y-direction
+    aim.x = x #MP - updates motion in the x-direction
+    aim.y = y #MP - updates motion in the y-direction
 #MP - This function updates the direction of motion (the aim vector) when an arrow key is pressed. This function will later be called to assign the arrow keys to specific changes in motion
 
 def inside(head):
@@ -32,23 +32,27 @@ def move():
         update()
         return
 
-    snake.append(head)
+    snake.append(head) #AC: adds the new position of the snake head to the snake list
 
-    if head == food:
+#AC: check if the snake has eaten the food
+    if head == food:         #AC: if the head position matches the food position, print the current length of the snake to the console. 
         print('Snake:', len(snake))
-        food.x = randrange(-15, 15) * 10
-        food.y = randrange(-15, 15) * 10
-    else:
-        snake.pop(0)
+#AC: If the snake eats the food, spawn a new food item at a random location
+        food.x = randrange(-15, 15) * 10  #AC: randomly generate a new x-coordinate for the food
+        food.y = randrange(-15, 15) * 10  #AC: randomly generate a new y-coordinate for the food
+    else:          #AC: if the snake hasn’t eaten the food, remove the tail (first element of the snake list)
+        snake.pop(0)  #AC: removes the first element (tail) from the snake list, making the snake move forward.
 
-    clear()
+    clear() #AC: clears the previous frame, allowing you to draw the updated positions of the snake and food
 
-    for body in snake:
-        square(body.x, body.y, 9, 'black')
+#AC: draw each segment of the snake
+    for body in snake:  #AC: Loop through every part of the snake's body
+        square(body.x, body.y, 9, 'black')   #AC: Draw each part of the snake as a small black square
 
-    square(food.x, food.y, 9, 'green')
-    update()
-    ontimer(move, 100)
+#AC: draw the food
+    square(food.x, food.y, 9, 'green')   #AC: Draw the food as a green square at its current coordinates
+    update()    #AC: Update the screen to show the new positions of the snake and food
+    ontimer(move, 100)  #AC: This schedules the ‘move’ function to be called after 100 milliseconds to create the animation loop
 
 
 setup(420, 420, 370, 0)
