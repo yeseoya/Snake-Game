@@ -55,13 +55,13 @@ def move(): #MC: The move() function controls how the snake moves one step forwa
     ontimer(move, 100)  #AC: This schedules the ‘move’ function to be called after 100 milliseconds to create the animation loop
 
 
-setup(420, 420, 370, 0)
-hideturtle()
-tracer(False)
-listen()
-onkey(lambda: change(10, 0), 'Right')
-onkey(lambda: change(-10, 0), 'Left')
-onkey(lambda: change(0, 10), 'Up')
+setup(420, 420, 370, 0) #YC: establishes size of grid
+hideturtle() #YC: hides cursor
+tracer(False) #YC: disables screen refreshes
+listen() #YC: detects which arrow button the player is pressing
+onkey(lambda: change(10, 0), 'Right') #YC: When a button is pressed (arrows in this case), the onkey function allows the user to control the snake's motions
+onkey(lambda: change(-10, 0), 'Left') #YC: Lambda function is a convenient function that does not need definitions. In this case, it helps to run without having to write the full instructions
+onkey(lambda: change(0, 10), 'Up') #YC: change(x, y) updates the direction of the snake according to the coordinates
 onkey(lambda: change(0, -10), 'Down')
-move()
-done()
+move() #YC: starts game loop
+done() #YC: ends game and keeps turtle open until program is manually closed
