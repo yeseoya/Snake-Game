@@ -17,20 +17,20 @@ def change(x, y):
     aim.y = y #MP - updates motion in the y-direction
 #MP - This function updates the direction of motion (the aim vector) when an arrow key is pressed. This function will later be called to assign the arrow keys to specific changes in motion
 
-def inside(head):
+def inside(head):  #MC: this function checks if the snake’s head is inside a defined boundary, in this case the rectangular area. It takes an argument head, which is an object representing the current position of the snake’s head
     """Return True if head inside boundaries."""
-    return -200 < head.x < 190 and -200 < head.y < 190
+    return -200 < head.x < 190 and -200 < head.y < 190 #MC: If both conditions are met, it returns True, otherwise it return False
+#MC: The function checks whether the x and y coordinates of the head lie within the range of -200 < head.x < 190 and -200 < head.y < 190
 
-
-def move():
+def move(): #MC: The move() function controls how the snake moves one step forward. It updates the position of the snake’s head and checks for boundary conditions or collisions with itself
     """Move snake forward one segment."""
-    head = snake[-1].copy()
-    head.move(aim)
+    head = snake[-1].copy() #MC: This line makes a copy of the last element in the snake (the current head). The copy is necessary so that we don’t accidentally modify the original head when calculating the next position
+    head.move(aim) #MC: The head is moved in the direction specified by aim. Aim could be a direction, such as up, down, left, right, that updates the head’s coordinates accordingly
 
-    if not inside(head) or head in snake:
-        square(head.x, head.y, 9, 'red')
-        update()
-        return
+    if not inside(head) or head in snake: #MC: This condition checks if the head is either out of bounds, using the inside() function, or collides with any other part of the snake’s body, head in snake. If either condition is true, the game ends
+        square(head.x, head.y, 9, 'red') #MC: If the game ends, it draws a red square at the current position of the head to indicate a ‘game over’
+        update() #MC: This function call updates the display, showing the red square that marks the game over state
+        return #MC: The function exits here because the game is over, preventing further movement of the snake
 
     snake.append(head) #AC: adds the new position of the snake head to the snake list
 
