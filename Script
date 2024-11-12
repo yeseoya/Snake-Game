@@ -1,21 +1,21 @@
-"""Snake, classic arcade game."""
+#Snake, classic arcade game.
 #MP - Mikayla Pleterski / AC - Ava Chen / YC - Yeseo Choi / MC - Magdalena Cudzich
 
 from random import randrange #MP - randrange is a function that will be used to randomly place food for the snake in the game area
-from turtle import * #MP - turtle is a python library that allows for the user to create graphics
+from turtle import * #MP - turtle is a graphics python library that allows for the editor to create images for the game and, in this game, control the animation of the snake's motion
 
-from freegames import square, vector #MP - 
+from freegames import square, vector #MP - freegames is a library to provide functions that help the game format, and from freegames we are importing square (for drawing a square) and vector (for 2D motion)
 
-food = vector(0, 0)
-snake = [vector(10, 0)]
-aim = vector(0, -10)
+food = vector(0, 0) #MP - Sets the food as a vector object and initializes it at the origin of the game space (0,0) 
+snake = [vector(10, 0)] #MP - Sets the snake as a list of vector objects and initializes the first segment of the snake at (10,0)
+aim = vector(0, -10) #MP - Sets aim as a vector object, meaning the direction in which the snake is moving, and initializes it at (0, -10), or moving downwards
 
 
 def change(x, y):
-    """Change snake direction."""
-    aim.x = x
-    aim.y = y
-
+    """Change snake direction.""" .
+    aim.x = x #MP - This assigns variable to the x-direction
+    aim.y = y #MP - This assigns varaible to y-direction
+#MP - This function updates the direction of motion (the aim vector) when an arrow key is pressed. This function will later be called to assign the arrow keys to specific changes in motion
 
 def inside(head):
     """Return True if head inside boundaries."""
