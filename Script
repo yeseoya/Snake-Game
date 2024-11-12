@@ -1,5 +1,5 @@
 """Snake, classic arcade game."""
-#MP - Mikayla Pleterski / AC - Ava Chen / 
+#MP - Mikayla Pleterski / AC - Ava Chen / YC - Yeseo Choi / MC - Magdalena Cudzich
 
 from random import randrange #MP - randrange is a function that will be used to randomly place food for the snake in the game area
 from turtle import * #MP - turtle is a python library that allows for the user to create graphics
