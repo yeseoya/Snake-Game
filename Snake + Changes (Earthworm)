@@ -6,8 +6,9 @@ from freegames import square, vector
 food = vector(0, 0)
 snake = [vector(10, 0)]
 aim = vector(0, -10)
+max_cells = (420 // 10) * (420 // 10) - 10
 food_color = 'green'  # Initial food color
-food_colors = ['green', 'blue', 'purple', 'yellow', 'orange', 'turquoise', ]  # List of possible food colors
+food_colors = ['green', 'blue', 'purple', 'yellow', 'orange', 'turquoise']  # List of possible food colors
 
 
 def change(x, y):
@@ -21,6 +22,23 @@ def inside(head):
     return -200 < head.x < 190 and -200 < head.y < 190
 
 
+def reset_game():
+    """Reset the game when it ends."""
+    global snake, food, aim
+    food.x, food.y = 0, 0  # Reset food position
+    snake = [vector(10, 0)]  # Reset snake
+    aim.x, aim.y = 0, -10  # Reset direction
+    
+    # Re-register the key bindings
+    onkey(lambda: change(10, 0), 'Right')
+    onkey(lambda: change(-10, 0), 'Left')
+    onkey(lambda: change(0, 10), 'Up')
+    onkey(lambda: change(0, -10), 'Down')
+    listen()
+    
+    move()  # Start moving
+
+
 def move():
     """Move snake forward one segment."""
     global food_color  # Set food_color as global to modify it
@@ -31,6 +49,11 @@ def move():
     if not inside(head) or head in snake:
         square(head.x, head.y, 9, 'red')
         update()
+        replay = textinput("Game Over", "Play again? (yes/no)")
+        if replay and replay.lower() == "yes":
+            reset_game()
+        else:
+            bye()  # Exit the game
         return
 
     snake.append(head)
