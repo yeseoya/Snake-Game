@@ -1,0 +1,118 @@
+from random import randrange, choice  #Import choice for random colour selection
+from turtle import *
+
+from freegames import square, vector
+
+food = vector(0, 0)
+snake = [vector(10, 0)]
+aim = vector(0, -10)
+max_cells = (420 // 10) * (420 // 10) - 10
+food_colour = 'green'  #Initializes food colour
+food_colours = ['green', 'blue', 'purple', 'yellow', 'orange', 'turquoise']  #List of possible food colours
+obstacles = [] #Empty list to store the positions of the obstacles 
+
+
+def change(x, y):
+    """Change snake direction."""
+    aim.x = x
+    aim.y = y
+
+
+def inside(head):
+    """Return True if head inside boundaries."""
+    return -200 < head.x < 190 and -200 < head.y < 190
+
+def spawn_obstacles():
+    """This function randomly generate obstacles."""
+    for _ in range(5):  #Spawns 5 obstacles
+        x = randrange(-15, 15) * 10
+        y = randrange(-15, 15) * 10
+        #Avoids placing obstacles on the initial snake or food
+        if vector(x, y) not in snake and vector(x, y) != food:
+            obstacles.append(vector(x, y))
+
+def reset_game():
+    """This function resets the game when it ends."""
+    global snake, food, aim
+    food.x, food.y = 0, 0  #Reset food position
+    snake = [vector(10, 0)]  #Reset snake
+    aim.x, aim.y = 0, -10  #Reset direction
+    
+    #Re-register the key bindings
+    onkey(lambda: change(10, 0), 'Right')
+    onkey(lambda: change(-10, 0), 'Left')
+    onkey(lambda: change(0, 10), 'Up')
+    onkey(lambda: change(0, -10), 'Down')
+    listen()
+    
+    move()  #Start moving
+
+
+def move():
+    """Move snake forward one segment."""
+    global food_colour  #Set food_colour as global to modify it
+
+    head = snake[-1].copy()
+    head.move(aim)
+    
+    #Wraps snake around the screen if it goes off-bounds
+    if head.x < -200:
+      head.x = 190
+    elif head.x > 190:
+      head.x = -200
+    elif head.y < -200:
+      head.y = 190
+    elif head.y > 190:
+      head.y = -200
+
+    if head in obstacles or head in snake:
+        square(head.x, head.y, 9, 'red')
+        update()
+        replay = textinput("Game Over", "Play again? (yes/no)")
+        if replay and replay.lower() == "yes":
+            reset_game()
+        else:
+            bye()  #Exit the game
+        return
+
+    snake.append(head)
+
+    if head == food:
+        print('Snake:', len(snake))
+        food.x = randrange(-15, 15) * 10
+        food.y = randrange(-15, 15) * 10
+        food_colour = choice(food_colours)  #Randomly choose a new colour for the food
+    else:
+        snake.pop(0)
+
+    clear()
+
+    for body in snake:
+        square(body.x, body.y, 9, 'black')
+        
+    square(food.x, food.y, 9, food_colour)  #Draw food with the selected colour
+    
+    for obstacle in obstacles:
+        square(obstacle.x, obstacle.y, 9, 'gray') #Draws in obstacles
+        
+    update()
+    ontimer(move, 100)
+    
+    
+
+
+setup(420, 420, 370, 0)
+bgcolor('SaddleBrown')  #Set the background colour to brown
+hideturtle()
+tracer(False)
+listen()
+
+
+spawn_obstacles() #Spawns initial obstacles
+
+onkey(lambda: change(10, 0), 'Right')
+onkey(lambda: change(-10, 0), 'Left')
+onkey(lambda: change(0, 10), 'Up')
+onkey(lambda: change(0, -10), 'Down')
+move()
+done()
