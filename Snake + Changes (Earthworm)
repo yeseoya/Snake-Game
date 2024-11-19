@@ -1,4 +1,4 @@
-from random import randrange
+from random import randrange, choice  # Import choice for random color selection
 from turtle import *
 
 from freegames import square, vector
@@ -6,6 +6,8 @@ from freegames import square, vector
 food = vector(0, 0)
 snake = [vector(10, 0)]
 aim = vector(0, -10)
+food_color = 'green'  # Initial food color
+food_colors = ['green', 'blue', 'purple', 'yellow', 'orange', 'turquoise', ]  # List of possible food colors
 
 
 def change(x, y):
@@ -21,6 +23,8 @@ def inside(head):
 
 def move():
     """Move snake forward one segment."""
+    global food_color  # Set food_color as global to modify it
+
     head = snake[-1].copy()
     head.move(aim)
 
@@ -35,6 +39,7 @@ def move():
         print('Snake:', len(snake))
         food.x = randrange(-15, 15) * 10
         food.y = randrange(-15, 15) * 10
+        food_color = choice(food_colors)  # Randomly choose a new color for the food
     else:
         snake.pop(0)
 
@@ -43,19 +48,20 @@ def move():
     for body in snake:
         square(body.x, body.y, 9, 'black')
 
-    square(food.x, food.y, 9, 'green')
+    square(food.x, food.y, 9, food_color)  # Draw food with the selected color
     update()
     ontimer(move, 100)
 
 
 setup(420, 420, 370, 0)
+bgcolor('SaddleBrown')  # Set the background color to brown
 hideturtle()
 tracer(False)
 listen()
 
 onkey(lambda: change(10, 0), 'Right')
-onkey(lambda: change(-10, 0), 'Left') 
-onkey(lambda: change(0, 10), 'Up') 
+onkey(lambda: change(-10, 0), 'Left')
+onkey(lambda: change(0, 10), 'Up')
 onkey(lambda: change(0, -10), 'Down')
 move()
 done()
