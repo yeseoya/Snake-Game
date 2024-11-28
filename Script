@@ -12,7 +12,7 @@ aim = vector(0, -10) #MP - Sets aim as a vector object, meaning the direction in
 
 
 def change(x, y):
-    """Change snake direction.""" .
+    """Change snake direction.""" 
     aim.x = x #MP - updates motion in the x-direction
     aim.y = y #MP - updates motion in the y-direction
 #MP - This function updates the direction of motion (the aim vector) when an arrow key is pressed. This function will later be called to assign the arrow keys to specific changes in motion
